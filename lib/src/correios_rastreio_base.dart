@@ -8,6 +8,10 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
 class CorreiosRastreio with Formatter {
+  /// Recebe o código da encomenda
+  /// retorna [RastreioModel] contendo todas suas informacoes
+  /// Pode lancar uma exceção [CodeNotFound] em caso de código
+  /// não encontrado
   Future<RastreioModel> rastrearEncomenda(String encomenda) async {
     final url = Uri.parse('$BASERASTREIO/$encomenda');
     print(url.toString());
