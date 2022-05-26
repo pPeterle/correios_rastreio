@@ -1,4 +1,4 @@
-import 'package:correios_rastreio/src/model/RastreioEvent.dart';
+import 'package:correios_rastreio/src/model/rastreio_event.dart';
 
 class RastreioModel {
   final String code;
