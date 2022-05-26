@@ -1,4 +1,5 @@
 import 'package:correios_rastreio/src/model/RastreioEvent.dart';
+import 'package:correios_rastreio/src/model/RastreioModel.dart';
 import 'package:correios_rastreio/src/util/erro.dart';
 import 'package:correios_rastreio/src/util/formatter.dart';
 import 'package:correios_rastreio/src/util/urls.dart';
@@ -7,7 +8,7 @@ import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
 class CorreiosRastreio with Formatter {
-  Future<List<RastreioEvent>> rastrearEncomenda(String encomenda) async {
+  Future<RastreioModel> rastrearEncomenda(String encomenda) async {
     final url = Uri.parse('$BASERASTREIO/$encomenda');
     print(url.toString());
     final response = await http.get(url, headers: {
@@ -26,7 +27,7 @@ class CorreiosRastreio with Formatter {
       final event = _getEvent(ul);
       events.add(event);
     });
-    return events;
+    return RastreioModel(code: encomenda, events: events);
   }
 
   RastreioEvent _getEvent(Element ul) {

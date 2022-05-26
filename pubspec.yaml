@@ -1,6 +1,6 @@
 name: correios_rastreio
 description: Biblioteca para facilitar o rastreio de pacotes no Correio.
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/pPeterle/correios_rastreio
 homepage: https://github.com/pPeterle/correios_rastreio
 
