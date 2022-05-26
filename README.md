@@ -1,4 +1,4 @@
-Correios Rastreio é uma biblioteca pra facilitar o rastreamento de pacotes nos correios, ela utiliza o site
+Correios Rastreio é uma biblioteca pra facilitar o rastreamento de pacotes nos correios, ela utiliza o site https://www.linkcorreios.com.br/
 
 ## Usage
 
