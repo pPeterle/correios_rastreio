@@ -7,7 +7,7 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
-class CorreiosRastreio with Formatter {
+class CorreiosRastreio {
   /// Recebe o código da encomenda
   /// retorna [RastreioModel] contendo todas suas informacoes
   /// Pode lancar uma exceção [CodeNotFound] em caso de código
@@ -39,12 +39,12 @@ class CorreiosRastreio with Formatter {
     ul.querySelectorAll('li').forEach((li) {
       final text = li.text;
       if (text.isNotEmpty) {
-        if (text.contains('Status')) status = formatStatus(text);
-        if (text.contains('Local')) local = formatLocal(text);
-        if (text.contains('Origem')) origem = formatOrigin(text);
-        if (text.contains('Destino')) destino = formatDestiny(text);
+        if (text.contains('Status')) status = Util.formatStatus(text);
+        if (text.contains('Local')) local = Util.formatLocal(text);
+        if (text.contains('Origem')) origem = Util.formatOrigin(text);
+        if (text.contains('Destino')) destino = Util.formatDestiny(text);
         if (text.contains('Data')) {
-          final datetime = formatDateTime(text);
+          final datetime = Util.formatDateTime(text);
           data = datetime[0];
           hora = datetime[1];
         }

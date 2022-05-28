@@ -9,3 +9,7 @@
 ## 1.0.2
 
 - Adicionado documentação
+
+## 1.0.3
+
+- Adicionado model ao export

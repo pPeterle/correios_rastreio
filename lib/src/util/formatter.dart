@@ -1,7 +1,7 @@
-mixin Formatter {
+class Util {
   /// Filtra a string [str] recebida no html
   /// para retornar apenas o status
-  String formatStatus(String str) {
+  static String formatStatus(String str) {
     final res = str
         .replaceAll('Status', '')
         .replaceAll(RegExp('\s\s+'), ' ')
@@ -13,7 +13,7 @@ mixin Formatter {
   /// Filtra a Data [str] recebida no html
   /// para retornar uma lista contendo a data no primeiro index
   /// e a hora no segundo index
-  List<String> formatDateTime(String str) {
+  static List<String> formatDateTime(String str) {
     final res = str
         .split(' ')
         .join('')
@@ -27,7 +27,7 @@ mixin Formatter {
 
   /// Filtra a string [str] recebida no html
   /// para retornar apenas o Local
-  String formatLocal(String str) {
+  static String formatLocal(String str) {
     /**
    * @param {string} str
    * Função responsável formatar o Local de entrega de uma encomenda
@@ -42,7 +42,7 @@ mixin Formatter {
 
   /// Filtra a string [str] recebida no html
   /// para retornar apenas a Origem
-  String formatOrigin(String str) {
+  static String formatOrigin(String str) {
     /**
    * @param {string} str
    * Função responsável formatar o Origem do trajeto de entrega de uma encomenda
@@ -57,7 +57,7 @@ mixin Formatter {
 
   /// Filtra a string [str] recebida no html
   /// para retornar apenas o Destino
-  String formatDestiny(String str) {
+  static String formatDestiny(String str) {
     final res = str
         .replaceAll('Destino', '')
         .replaceAll('\s\s+', ' ')

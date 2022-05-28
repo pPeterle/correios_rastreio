@@ -2,7 +2,7 @@ import 'package:correios_rastreio/correios_rastreio.dart';
 
 void main() async {
   var correios = CorreiosRastreio();
-  final package = await correios.rastrearEncomenda('EY689417763aFR');
+  final package = await correios.rastrearEncomenda('EY12345678FR');
   final events = package.events;
   print(events[0].data);
   print(events[0].hora);
