@@ -13,3 +13,7 @@
 ## 1.0.3
 
 - Adicionado model ao export
+
+## 1.0.4
+
+- Adicionado tratamento de erro para código não encontrado

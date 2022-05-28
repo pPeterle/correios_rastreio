@@ -1,6 +1,6 @@
 import 'package:correios_rastreio/src/model/rastreio_event.dart';
 import 'package:correios_rastreio/src/model/rastreio_model.dart';
-import 'package:correios_rastreio/src/util/erro.dart';
+import 'package:correios_rastreio/src/err/erro.dart';
 import 'package:correios_rastreio/src/util/formatter.dart';
 import 'package:correios_rastreio/src/util/urls.dart';
 import 'package:html/dom.dart';
