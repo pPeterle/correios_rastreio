@@ -21,7 +21,7 @@ class CorreiosRastreio {
     });
 
     final document = parse(response.body);
-    final ulList = document.querySelectorAll('ul.linha_status');
+    final ulList = document.querySelectorAll('.singlepost ul.linha_status');
     if (ulList.isEmpty) {
       throw CodeNotFound();
     }
