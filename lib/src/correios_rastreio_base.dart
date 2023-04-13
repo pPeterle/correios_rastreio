@@ -1,62 +1,80 @@
-import 'package:correios_rastreio/src/model/rastreio_event.dart';
-import 'package:correios_rastreio/src/model/rastreio_model.dart';
-import 'package:correios_rastreio/src/err/erro.dart';
-import 'package:correios_rastreio/src/util/formatter.dart';
+import 'dart:convert';
+
+import 'package:correios_rastreio/correios_rastreio.dart';
 import 'package:correios_rastreio/src/util/urls.dart';
-import 'package:html/dom.dart';
-import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
+const REQUEST_TOKEN =
+    'YW5kcm9pZDtici5jb20uY29ycmVpb3MucHJlYXRlbmRpbWVudG87RjMyRTI5OTc2NzA5MzU5ODU5RTBCOTdGNkY4QTQ4M0I5Qjk1MzU3OA==';
+
 class CorreiosRastreio {
+  String? tokenValue;
+  int tokenExpiration = 0;
+  Future<dynamic>? tokenFuture;
+
   /// Recebe o código da encomenda
-  /// retorna [RastreioModel] contendo todas suas informacoes
+  /// retorna [Encomenda] contendo todas suas informacoes
   /// Pode lancar uma exceção [CodeNotFound] em caso de código
   /// não encontrado
-  Future<RastreioModel> rastrearEncomenda(String encomenda) async {
-    final url = Uri.parse('$BASERASTREIO/$encomenda');
-    print(url.toString());
-    final response = await http.get(url, headers: {
-      'content-type': 'text; charset=utf-8',
-      'cache-control': 'no-cache'
+  Future<Encomenda> rastrearEncomenda(String codigo) async {
+    final token = await _getTokenApp();
+    final uri = Uri.parse('$URL_RASTREIO$codigo');
+    final result = await http.get(uri, headers: {
+      'content-type': 'application/json',
+      'user-agent': 'Dart/2.18 (dart:io)',
+      'app-check-token': token,
     });
 
-    final document = parse(response.body);
-    final ulList = document.querySelectorAll('.singlepost ul.linha_status');
-    if (ulList.isEmpty) {
+    final json = jsonDecode(utf8.decode(result.bodyBytes))['objetos'][0];
+
+    final mensagem = json['mensagem'];
+    if (mensagem != null && mensagem.length != 0) {
       throw CodeNotFound();
     }
 
-    final events = <RastreioEvent>[];
-    ulList.forEach((ul) {
-      final event = _getEvent(ul);
-      events.add(event);
-    });
-    return RastreioModel(code: encomenda, events: events);
+    return Encomenda.fromJson(json);
   }
 
-  RastreioEvent _getEvent(Element ul) {
-    String? status, data, hora, local, origem, destino;
-    ul.querySelectorAll('li').forEach((li) {
-      final text = li.text;
-      if (text.isNotEmpty) {
-        if (text.contains('Status')) status = Util.formatStatus(text);
-        if (text.contains('Local')) local = Util.formatLocal(text);
-        if (text.contains('Origem')) origem = Util.formatOrigin(text);
-        if (text.contains('Destino')) destino = Util.formatDestiny(text);
-        if (text.contains('Data')) {
-          final datetime = Util.formatDateTime(text);
-          data = datetime[0];
-          hora = datetime[1];
-        }
-      }
+  Future _getTokenApp() {
+    // Checa se o token está em cache e se não está expirado
+    if (tokenValue != null &&
+        tokenExpiration > DateTime.now().millisecondsSinceEpoch) {
+      return Future.value(tokenValue);
+    }
+
+    // Checa se já existe uma promise de token em andamento
+    if (tokenFuture != null) {
+      return tokenFuture!;
+    }
+
+    tokenFuture = http
+        .post(Uri.parse(URL_TOKEN),
+            headers: {
+              'content-type': 'application/json',
+              'user-agent': 'Dart/2.18 (dart:io)',
+            },
+            body: jsonEncode({'requestToken': REQUEST_TOKEN}))
+        .then((response) {
+      tokenFuture = null;
+      final jwt = jsonDecode(response.body)['token'];
+      final jwtData = jwt.split('.')[1];
+      final codec = Base64Codec();
+      final jwtBuffer = base64Decode(codec.normalize(jwtData));
+      final jwtString = String.fromCharCodes(jwtBuffer);
+
+      final jwtObject = jsonDecode(jwtString);
+
+      tokenValue = jwt;
+      tokenExpiration =
+          jwtObject['exp'] * 1000 - 120000; // 120 segundos de margem
+      return jwt;
+    }).catchError((error) {
+      tokenValue = null;
+      tokenExpiration = 0;
+      tokenFuture = null;
+      return AuthError();
     });
-    return RastreioEvent(
-      status: status!,
-      data: data!,
-      hora: hora!,
-      local: local,
-      origem: origem,
-      destino: destino,
-    );
+
+    return tokenFuture!;
   }
 }

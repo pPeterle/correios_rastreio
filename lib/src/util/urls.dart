@@ -1,4 +1,2 @@
-const BASECEP = 'https://viacep.com.br/ws';
-const BASECORREIOS = 'http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx';
-const BASERASTREIO = 'https://www.linkcorreios.com.br';
-const WIDENET = 'https://cep.widenet.host/busca-cep/api/cep';
+const URL_RASTREIO = 'https://proxyapp.correios.com.br/v1/sro-rastro/';
+const URL_TOKEN = 'https://proxyapp.correios.com.br/v1/app-validation';

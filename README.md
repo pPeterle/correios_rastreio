@@ -1,4 +1,4 @@
-Correios Rastreio é uma biblioteca pra facilitar o rastreamento de pacotes nos correios, ela utiliza o site https://www.linkcorreios.com.br/
+Correios Rastreio é uma biblioteca pra facilitar o rastreamento de pacotes nos correios, inspirado na biblioteca [Rastreio Brasil](https://github.com/FinotiLucas/Correios-Brasil)
 
 ## Usage
 
@@ -9,13 +9,13 @@ import 'package:correios_rastreio/correios_rastreio.dart';
 
 void main() async {
   var correios = CorreiosRastreio();
-  final events = await correios.rastrearEncomenda('AB12345678912BR');
-  print(events[0].data);
-  print(events[0].hora);
-  print(events[0].destino);
-  print(events[0].status);
-  print(events[0].origem);
-  print(events[0].local);
+
+  final result = await correios.rastrearEncomenda('QB944791449BR');
+
+  print(result.eventos.length);
+  print(result.eventos.length);
+  print(result.eventos[0].descricao);
+  print(result.eventos[0].data);
 }
 
 ```
