@@ -23,10 +23,9 @@ class Eventos {
     data = DateTime.parse(json['dtHrCriado']);
     tipo = json['tipo'];
     unidade = Unidade.fromJson(json['unidade']);
-
-    if (json['unidadeDestino'] != null) {
-      unidadeDestino = Unidade.fromJson(json['unidadeDestino']);
-    }
+    unidadeDestino = json['unidadeDestino'] != null
+        ? Unidade.fromJson(json['unidadeDestino'])
+        : null;
 
     urlIcone = json['urlIcone'];
   }
