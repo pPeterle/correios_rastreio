@@ -17,3 +17,7 @@
 ## 1.0.4
 
 - Adicionado tratamento de erro para código não encontrado
+
+## 2.0.0
+
+- Trocado serviço para rastreio de encomendas

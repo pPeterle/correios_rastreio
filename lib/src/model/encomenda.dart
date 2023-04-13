@@ -1,5 +1,4 @@
 import 'package:correios_rastreio/correios_rastreio.dart';
-import 'package:correios_rastreio/src/model/tipo_postal.dart';
 
 class Encomenda {
   Encomenda({
