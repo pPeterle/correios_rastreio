@@ -21,3 +21,7 @@
 ## 2.0.0
 
 - Trocado serviço para rastreio de encomendas
+
+## 2.0.1
+
+- Adicionado endereco unidade de destino

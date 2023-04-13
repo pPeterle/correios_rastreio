@@ -14,6 +14,7 @@ class Eventos {
   late final DateTime data;
   late final String tipo;
   late final Unidade unidade;
+  late final Unidade? unidadeDestino;
   late final String? urlIcone;
 
   Eventos.fromJson(Map<String, dynamic> json) {
@@ -22,6 +23,11 @@ class Eventos {
     data = DateTime.parse(json['dtHrCriado']);
     tipo = json['tipo'];
     unidade = Unidade.fromJson(json['unidade']);
+
+    if (json['unidadeDestino'] != null) {
+      unidadeDestino = Unidade.fromJson(json['unidadeDestino']);
+    }
+
     urlIcone = json['urlIcone'];
   }
 
@@ -32,6 +38,11 @@ class Eventos {
     _data['dtHrCriado'] = data.toIso8601String();
     _data['tipo'] = tipo;
     _data['unidade'] = unidade.toJson();
+
+    if (unidadeDestino != null) {
+      _data['unidadeDestino'] = unidade.toJson();
+    }
+
     _data['urlIcone'] = urlIcone;
     return _data;
   }
