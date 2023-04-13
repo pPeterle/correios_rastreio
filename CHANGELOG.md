@@ -25,3 +25,7 @@
 ## 2.0.1
 
 - Adicionado endereco unidade de destino
+
+## 2.0.2
+
+- Corrigido erro unidade sem endereço
