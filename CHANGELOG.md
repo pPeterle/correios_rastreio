@@ -29,3 +29,7 @@
 ## 2.0.3
 
 - Corrigido bugs
+
+## 2.0.4
+
+- Corrigido erro data prevista null

@@ -15,7 +15,7 @@ class Encomenda {
     required this.habilitaCrowdshipping,
   });
   late final String codObjeto;
-  late final String dtPrevista;
+  late final String? dtPrevista;
   late final List<Eventos> eventos;
   late final TipoPostal tipoPostal;
   late final bool habilitaAutoDeclaracao;

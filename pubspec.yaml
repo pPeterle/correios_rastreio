@@ -1,6 +1,6 @@
 name: correios_rastreio
 description: Biblioteca para facilitar o rastreio de pacotes no Correio, recebendo todos os eventos relacionados ao estado do seu pacote.
-version: 2.0.3
+version: 2.0.4
 repository: https://github.com/pPeterle/correios_rastreio
 homepage: https://github.com/pPeterle/correios_rastreio
 
