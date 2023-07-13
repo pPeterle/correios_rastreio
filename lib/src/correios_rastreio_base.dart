@@ -2,10 +2,11 @@ import 'dart:convert';
 
 import 'package:correios_rastreio/correios_rastreio.dart';
 import 'package:correios_rastreio/src/util/urls.dart';
+import 'package:crypto/crypto.dart';
 import 'package:http/http.dart' as http;
 
 const REQUEST_TOKEN =
-    'YW5kcm9pZDtici5jb20uY29ycmVpb3MucHJlYXRlbmRpbWVudG87RjMyRTI5OTc2NzA5MzU5ODU5RTBCOTdGNkY4QTQ4M0I5Qjk1MzU3OA==';
+    'YW5kcm9pZDtici5jb20uY29ycmVpb3MucHJlYXRlbmRpbWVudG87RjMyRTI5OTc2NzA5MzU5ODU5RTBCOTdGNkY4QTQ4M0I5Qjk1MzU3ODs1LjEuMTQ=';
 
 class CorreiosRastreio {
   String? tokenValue;
@@ -47,15 +48,26 @@ class CorreiosRastreio {
       return tokenFuture!;
     }
 
+    final today = DateTime.now();
+    final requestData =
+        '${today.day.toString().padLeft(2, "0")}/${today.month.toString().padLeft(2, "0")}/${today.year.toString().padLeft(2, "0")} ${today.hour.toString().padLeft(2, "0")}:${today.minute.toString().padLeft(2, "0")}:${today.second.toString().padLeft(2, "0")}';
+    final encode = utf8.encode('requestToken${REQUEST_TOKEN}data$requestData');
+    final digest = md5.convert(encode).toString();
+
     tokenFuture = http
         .post(Uri.parse(URL_TOKEN),
             headers: {
               'content-type': 'application/json',
               'user-agent': 'Dart/2.18 (dart:io)',
             },
-            body: jsonEncode({'requestToken': REQUEST_TOKEN}))
+            body: jsonEncode({
+              'requestToken': REQUEST_TOKEN,
+              'data': requestData,
+              'sign': digest.toString()
+            }))
         .then((response) {
       tokenFuture = null;
+
       final jwt = jsonDecode(response.body)['token'];
       final jwtData = jwt.split('.')[1];
       final codec = Base64Codec();

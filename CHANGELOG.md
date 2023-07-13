@@ -33,3 +33,7 @@
 ## 2.0.4
 
 - Corrigido erro data prevista null
+
+## 3.0.0
+
+- Atualizada para nova versão da API dos correios
